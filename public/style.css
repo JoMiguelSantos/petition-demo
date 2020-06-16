@@ -1,0 +1,44 @@
+body {
+    margin: 0;
+}
+
+.tabsvsspaces {
+    margin: 0 5%;
+}
+
+h4 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form div {
+    display: flex;
+    justify-content: center;
+}
+
+canvas {
+    border: 1px solid black;
+}
+
+.submit {
+    width: 100px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+}
+
+.signature-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px;
+}

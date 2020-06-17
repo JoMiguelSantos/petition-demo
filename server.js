@@ -3,9 +3,16 @@ const handlebars = require("express-handlebars");
 const db = require("./db");
 const app = express();
 const qs = require("querystring");
+const cookieSession = require("cookie-session");
 
+app.use(
+    cookieSession({
+        secret: `tabs rule`,
+        maxAge: 1000 * 60 * 60 * 24 * 14,
+    })
+);
 app.use(express.static("public"));
-app.use(require("cookie-parser")());
+// app.use(require("cookie-parser")());
 app.use(
     express.urlencoded({
         extended: false,
@@ -16,11 +23,12 @@ app.engine("handlebars", handlebars());
 app.set("view engine", "handlebars");
 
 app.get("/petition", (req, res) => {
-    if (req.cookies["signed"] === "true") {
+    if (req.session.signatureId) {
         return res.redirect("/signers");
     }
 
-    const err = qs.parse(req.url)["err"];
+    const err = qs.parse(req.url.split("?")[1])["err"];
+
     if (err === "true") {
         return res.render("petition", {
             err:
@@ -28,23 +36,35 @@ app.get("/petition", (req, res) => {
             layout: "signature",
         });
     } else {
-        return res.render("petition", { err: "", layout: "signature" });
+        return res.render("petition", {
+            err: "",
+            layout: "signature",
+        });
     }
 });
 
 app.post("/petition", (req, res) => {
     db.createSignature(req.body)
-        .then(() => {
-            res.cookie("signed", "true");
+        .then((data) => {
+            req.session.signatureId = data.rows[0].id;
             return res.redirect("/thanks");
         })
-        .catch((err) => {
+        .catch(() => {
             return res.redirect("/petition?err=true");
         });
 });
 
 app.get("/thanks", (req, res) => {
-    return res.render("thanks");
+    if (req.session.signatureId) {
+        return db
+            .readSignature({ id: req.session.signatureId })
+            .then((data) => {
+                return res.render("thanks", {
+                    signature: data.rows[0].signature,
+                });
+            })
+            .catch((err) => console.log(err));
+    }
 });
 
 app.get("/signers", (req, res) => {

@@ -15,7 +15,7 @@ exports.readSignature = ({ id }) => {
 };
 
 exports.createSignature = ({ firstName, lastName, signature }) => {
-    const query = `INSERT INTO signature ("firstName", "lastName", signature) VALUES ($1, $2, $3)`;
+    const query = `INSERT INTO signature ("firstName", "lastName", signature) VALUES ($1, $2, $3) RETURNING *;`;
     return db.query(query, [firstName, lastName, signature]);
 };
 

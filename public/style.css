@@ -1,5 +1,7 @@
 body {
     margin: 0;
+    color: white;
+    background-color: black;
 }
 
 .tabsvsspaces {
@@ -24,13 +26,26 @@ form div {
 
 canvas {
     border: 1px dotted black;
+    background-color: white;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .submit {
     width: 200px;
+    height: 35px;
     padding: 5px;
     margin: 5px;
     font-size: 20px;
+}
+
+.clear {
+    width: 200px;
+    height: 35px;
 }
 
 .input-container {
@@ -73,4 +88,15 @@ canvas {
 
 li {
     font-size: 16px;
+}
+
+.error {
+    text-align: center;
+    color: red;
+}
+
+.user-signature {
+    border: 1px solid black;
+    margin: 5px;
+    background-color: white;
 }

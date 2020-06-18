@@ -1,0 +1,22 @@
+<img class="tab-img" src="tab.png" alt="tab keyboard icon" width="600" height="300">
+<form class="signup" action="/signup" method="post">
+  <div class="input-container">
+      <label for="first">First Name</label>
+      <input type="text" name="first" id="first" />
+  </div>
+  <div class="input-container">
+      <label for="last">Last Name</label>
+      <input type="text" name="last" id="last" />
+  </div>
+  <div class="input-container">
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" />
+  </div>
+  <div class="input-container">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" />
+  </div>
+  <input type="submit" class="submit" value="Sign Up" />
+  <input type="hidden" name="_csrf" value="{{csrfToken}}">
+</form>
+<p class="login-link">If you're already a part of this campaign, please <a href="/login">log in</a></p>

@@ -100,3 +100,46 @@ li {
     margin: 5px;
     background-color: white;
 }
+
+.navigation {
+}
+
+.advocacy-img {
+}
+
+.homepage-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigation a {
+    background-color: white;
+    color: black;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.tab-img {
+    display: block;
+    margin: 20px auto;
+}
+
+.signup {
+    display: flex;
+    flex-direction: row;
+    margin: 50px;
+}
+
+.login-link {
+    text-align: center;
+}
+
+h4 {
+    display: inline-block;
+    margin: 10px;
+}
+
+.signature-details {
+    text-align: center;
+}

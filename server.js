@@ -4,6 +4,7 @@ const db = require("./db");
 const app = express();
 const qs = require("querystring");
 const cookieSession = require("cookie-session");
+const csurf = require("csurf");
 
 app.use(
     cookieSession({
@@ -12,12 +13,16 @@ app.use(
     })
 );
 app.use(express.static("public"));
-// app.use(require("cookie-parser")());
 app.use(
     express.urlencoded({
         extended: false,
     })
 );
+app.use(csurf());
+app.use(function (req, res, next) {
+    res.locals.csrfToken = req.csrfToken();
+    next();
+});
 
 app.engine("handlebars", handlebars());
 app.set("view engine", "handlebars");

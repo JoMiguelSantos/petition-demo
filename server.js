@@ -33,18 +33,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/petition", (req, res) => {
-    console.log("petition get", req.session.userId, req.session.signatureId);
-
     if (req.session.userId && req.session.signatureId) {
-        console.log("petition all good");
-
         return res.redirect("/signers");
     } else if (req.session.userId) {
-        console.log("check if signature");
-
         db.readSignature({ user_id: req.session.userId }).then((data) => {
-            console.log("read sig petition", data.rows, data.rows.length);
-
             if (data.rows.length === 1) {
                 req.session.signatureId = data.rows[0].id;
                 return res.redirect("/signers");
@@ -100,16 +92,10 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    console.log("login post", req.body);
-
     return db.readUser({ email: req.body.email }).then((data) => {
-        console.log("login readUser", req.body.password, data.rows[0].password);
-
         comparePassword(req.body.password, data.rows[0].password).then(
             (check) => {
                 if (check) {
-                    console.log("check pass", check);
-
                     req.session.userId = data.rows[0].id;
                     req.session.first = data.rows[0].first;
                     req.session.last = data.rows[0].last;
@@ -148,12 +134,30 @@ app.post("/signup", (req, res) => {
                 req.session.userId = data.rows[0].id;
                 req.session.first = data.rows[0].first;
                 req.session.last = data.rows[0].last;
-                return res.redirect("/petition");
+                return res.redirect("/profile");
             })
             .catch(() => {
                 return res.redirect("/signup?err=true");
             });
     });
+});
+
+app.get("/profile", (req, res) => {
+    res.render("profile");
+});
+
+app.post("/profile", (req, res) => {
+    let { age, city, url } = req.body;
+    city = city.toLowerCase();
+    const user_id = req.session.userId;
+    let data;
+    if (/^https?:\/\//.test(url)) {
+        data = { user_id, age, city, url };
+    } else {
+        data = { user_id, age, city };
+    }
+    // check if profiles exists and update if so else create
+    db.createProfile(data).then(() => res.redirect("/petition"));
 });
 
 app.get("/thanks", (req, res) => {
@@ -171,9 +175,51 @@ app.get("/thanks", (req, res) => {
 
 app.get("/signers", (req, res) => {
     return db
-        .readAllSignatures()
+        .readAllSignatures({})
         .then((result) => {
-            return res.render("signers", { signers: result.rows });
+            return res.render("signers", {
+                signers: result.rows,
+                helpers: {
+                    toLowerCase(str) {
+                        return str.toLowerCase();
+                    },
+                    capitalize(text, separator = "-") {
+                        return text
+                            .split(separator)
+                            .map(
+                                (word) =>
+                                    word.charAt(0).toUpperCase() + word.slice(1)
+                            )
+                            .join(" ");
+                    },
+                },
+            });
+        })
+        .catch(() => res.sendStatus(500));
+});
+
+app.get("/signers/:city", (req, res) => {
+    const { city } = req.params;
+    db.readAllSignatures({ city })
+        .then((result) => {
+            return res.render("signers", {
+                signers: result.rows,
+                city: true,
+                helpers: {
+                    toLowerCase(str) {
+                        return str.toLowerCase();
+                    },
+                    capitalize(text, separator = "-") {
+                        return text
+                            .split(separator)
+                            .map(
+                                (word) =>
+                                    word.charAt(0).toUpperCase() + word.slice(1)
+                            )
+                            .join(" ");
+                    },
+                },
+            });
         })
         .catch(() => res.sendStatus(500));
 });

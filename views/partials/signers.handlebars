@@ -1,3 +1,11 @@
+{{#if city}}
+<h4>We, the people of {{capitalize signers.0.city}}, subscribe to this pledge to erradicate the foulness that is spaces.</h4>
+{{/if}}
+<h3>Subscribers:</h3>
 {{#signers}}
-  <li>  {{first}} {{last}}</li>
+  <li> 
+    <a href="{{url}}">{{first}} {{last}}</a> 
+    {{age}} 
+    <a href="/signers/{{toLowerCase city}}">{{capitalize city}}</a>
+  </li>
 {{/signers}}

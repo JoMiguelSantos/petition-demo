@@ -3,6 +3,15 @@ body {
     color: white;
     background-color: black;
 }
+
+* {
+}
+@media only screen and (max-width: 600px) {
+    * {
+        font-size: small;
+    }
+}
+
 .homepage-icon {
     position: fixed;
     top: 0;
@@ -42,16 +51,21 @@ canvas {
 }
 
 .submit {
-    width: 200px;
-    height: 35px;
+    width: 12.5rem;
+    height: 2.2rem;
     padding: 5px;
     margin: 5px;
-    font-size: 20px;
+    font-size: 1.25rem;
 }
 
 .clear {
-    width: 200px;
-    height: 35px;
+    width: 12.5rem;
+    height: 2.2rem;
+}
+@media only screen and (max-width: 600px) {
+    .clear {
+        display: none;
+    }
 }
 
 .input-container {
@@ -66,6 +80,20 @@ canvas {
     align-items: center;
     margin: 5px;
 }
+@media only screen and (max-width: 600px) {
+    .signature-container {
+        display: none;
+    }
+}
+
+.team-tabs {
+}
+@media only screen and (max-width: 600px) {
+    .team-tabs {
+        width: 18rem;
+        margin: 20px auto;
+    }
+}
 
 .teams-content {
     display: flex;
@@ -74,14 +102,14 @@ canvas {
 }
 
 .signers-link {
-    font-size: 20px;
+    font-size: 1.25rem;
 }
 
 .signers {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 20px;
+    font-size: 1.25rem;
 }
 
 .signers-list {
@@ -89,11 +117,12 @@ canvas {
     flex-direction: column;
     align-items: center;
     list-style-type: "---->";
-    font-size: 20px;
+    font-size: 1.25rem;
+    padding: 0;
 }
 
 li {
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .error {
@@ -106,17 +135,75 @@ li {
     margin: 5px;
     background-color: white;
 }
+@media only screen and (max-width: 600px) {
+    .user-signature {
+        display: none;
+    }
+}
 
 .navigation {
 }
+@media only screen and (max-width: 600px) {
+    .navigation {
+        font-size: smaller;
+    }
+}
+
+.homepage-header {
+}
+@media only screen and (max-width: 600px) {
+    .homepage-header {
+        font-size: 1.5rem;
+        margin-left: 1.5rem;
+    }
+}
+
+.petition-header {
+}
+@media only screen and (max-width: 600px) {
+    .petition-header {
+        font-size: 1.5rem;
+        margin-top: 6rem;
+    }
+}
+
+.signers-header {
+}
+@media only screen and (max-width: 600px) {
+    .signers-header {
+        font-size: 1.5rem;
+        margin-left: 3rem;
+    }
+}
+
+.thanks-header {
+}
+@media only screen and (max-width: 600px) {
+    .thanks-header {
+        font-size: 1.5rem;
+        margin-left: 1.5rem;
+    }
+}
 
 .advocacy-img {
+}
+@media only screen and (max-width: 600px) {
+    .advocacy-img {
+        width: 15rem;
+    }
 }
 
 .homepage-container {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+@media only screen and (max-width: 600px) {
+    .homepage-container {
+        flex-direction: column;
+        margin: 1rem;
+        line-height: 2rem;
+    }
 }
 
 .navigation a {
@@ -130,11 +217,22 @@ li {
     display: block;
     margin: 20px auto;
 }
+@media only screen and (max-width: 600px) {
+    .tab-img {
+        width: 18rem;
+        margin: 20px auto;
+    }
+}
 
 .signup {
     display: flex;
     flex-direction: row;
     margin: 50px;
+}
+@media only screen and (max-width: 600px) {
+    .signup {
+        flex-direction: column;
+    }
 }
 
 .login-link {
@@ -159,13 +257,13 @@ h4 {
     border: none;
     text-decoration: underline;
     color: white;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;
 }
 
 .update-profile-link {
     color: white;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-family: Arial, Helvetica, sans-serif;
 }

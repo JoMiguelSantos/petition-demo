@@ -3,27 +3,27 @@
 <form class="profile_edit" action="/profile/edit" method="post">
   <div class="input-container">
       <label for="first">First Name</label>
-      <input type="text" name="first" id="first" />
+      <input type="text" name="first" id="first" value="{{first}}"/>
   </div>
   <div class="input-container">
       <label for="last">Last Name</label>
-      <input type="text" name="last" id="last" />
+      <input type="text" name="last" id="last" value="{{last}}" />
   </div>
   <div class="input-container">
       <label for="city">City</label>
-      <input type="text" name="city" id="city" />
+      <input type="text" name="city" id="city" value="{{capitalize city}}" />
   </div>
   <div class="input-container">
       <label for="age">Age</label>
-      <input type="number" name="age" id="age" />
+      <input type="number" name="age" id="age" value="{{age}}" />
   </div>
   <div class="input-container">
       <label for="url">Homepage</label>
-      <input type="url" name="url" id="url" />
+      <input type="url" name="url" id="url" value="{{url}}" />
   </div>
   <div class="input-container">
       <label for="email">Email</label>
-      <input type="email" name="email" id="email" />
+      <input type="email" name="email" id="email" value="{{email}}"/>
   </div>
   <div class="input-container">
       <label for="password">Password</label>

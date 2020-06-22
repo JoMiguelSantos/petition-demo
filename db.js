@@ -65,12 +65,14 @@ exports.readUser = ({ email, id }) => {
 };
 
 exports.updateUser = ({ first, last, email, password, id }) => {
+    console.log("update user", first, last, email, password, id);
+
     const query = `INSERT INTO users (first, last, email, password, id) 
                        VALUES ($1, $2, $3, $4, $5)
                        ON CONFLICT (id)
                        DO UPDATE SET first = $1, 
                                      last = $2, 
-                                     email = $3
+                                     email = $3,
                                      password = $4;`;
     return db.query(query, [first, last, email, password, id]);
 };
@@ -91,6 +93,8 @@ exports.createProfile = ({ user_id, age, city, url }) => {
 };
 
 exports.updateProfile = ({ user_id, age, city, url }) => {
+    console.log("update profile", user_id, age, city, url);
+
     const query = `INSERT INTO user_profiles (age, city, url, user_id) 
                        VALUES ($1, $2, $3, $4)
                        ON CONFLICT (user_id)

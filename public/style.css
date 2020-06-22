@@ -3,6 +3,12 @@ body {
     color: white;
     background-color: black;
 }
+.homepage-icon {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 5px;
+}
 
 .tabsvsspaces {
     margin: 0 5%;
@@ -142,4 +148,17 @@ h4 {
 
 .signature-details {
     text-align: center;
+}
+
+.clear-signature {
+    background: none;
+    border: none;
+    text-decoration: underline;
+    color: white;
+    font-size: 20px;
+}
+
+.update-profile-link {
+    color: white;
+    font-size: 20px;
 }

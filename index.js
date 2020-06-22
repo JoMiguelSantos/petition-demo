@@ -255,8 +255,6 @@ app.get("/signers", (req, res) => {
     return db
         .readAllSignatures({})
         .then((result) => {
-            console.log("/signers", result.rows);
-
             return res.render("signers", {
                 signers: result.rows,
                 helpers: {
@@ -271,7 +269,8 @@ app.get("/signers", (req, res) => {
 });
 
 app.get("/signers/:city", (req, res) => {
-    const { city } = req.params;
+    let { city } = req.params;
+    city = city.replace("%20", " ");
     db.readAllSignatures({ city })
         .then((result) => {
             return res.render("signers", {

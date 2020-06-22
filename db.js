@@ -19,7 +19,7 @@ exports.readAllSignatures = ({ user_id, city }) => {
                  FROM signatures 
                  JOIN users ON signatures.user_id = users.id 
                  LEFT JOIN user_profiles ON signatures.user_id = user_profiles.user_id 
-                 WHERE city = $1;`;
+                 WHERE city ILIKE $1;`;
     } else {
         query = `SELECT * 
                  FROM signatures 

@@ -156,7 +156,11 @@ app.post("/signup", (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-    res.render("profile");
+    if (req.session.profileId) {
+        res.redirect("/profile/edit");
+    } else {
+        res.render("profile");
+    }
 });
 
 app.post("/profile", (req, res) => {
@@ -169,8 +173,10 @@ app.post("/profile", (req, res) => {
     } else {
         data = { user_id, age, city };
     }
-    // check if profiles exists and update if so else create
-    db.createProfile(data).then(() => res.redirect("/petition"));
+    db.createProfile(data).then((data) => {
+        req.session.profileId = data.rows[0].id;
+        res.redirect("/petition");
+    });
 });
 
 app.get("/profile/edit", (req, res) => {
@@ -178,17 +184,21 @@ app.get("/profile/edit", (req, res) => {
         db.readUser({ id: req.session.userId }),
         db.readProfile({ user_id: req.session.userId }),
     ]).then((data) => {
-        const { first, last, email } = data[0].rows[0];
-        const { age, city, url } = data[1].rows[0];
-        return res.render("profile_edit", {
-            first,
-            last,
-            email,
-            age,
-            city,
-            url,
-            helpers: { capitalize },
-        });
+        if (data[1].rows.length > 0 && data[0].rows.length > 0) {
+            const { first, last, email } = data[0].rows[0];
+            const { age, city, url } = data[1].rows[0];
+            return res.render("profile_edit", {
+                first,
+                last,
+                email,
+                age,
+                city,
+                url,
+                helpers: { capitalize },
+            });
+        } else {
+            return res.redirect("/profile");
+        }
     });
 });
 
@@ -245,6 +255,8 @@ app.get("/signers", (req, res) => {
     return db
         .readAllSignatures({})
         .then((result) => {
+            console.log("/signers", result.rows);
+
             return res.render("signers", {
                 signers: result.rows,
                 helpers: {

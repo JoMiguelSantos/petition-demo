@@ -4,8 +4,11 @@
   <div class="navigation">
   {{#if loggedin}}
     <h2><a href="/logout">LOG OUT</a></h2>
-    <h2><a href="/profile/edit">PROFILE</a> Update your Profile data.</h2>
-    <h2><a href="/petition">Petition</a></h2>
+    <h2><a href="/profile/edit">PROFILE</a></h2>
+    <h2><a href="/petition">PETITION</a></h2>
+  {{#if signature}}
+    <h2><a href="/thanks">SIGNATURE</a></h2>
+  {{/if}}
   {{else}}
     <h2><a href="/login">LOG IN</a> to find and subscribe to our initiatives.</h2>
     <h2><a href="/signup">SIGN UP</a> if you're new to the cause and find out how you can do your part.</h2>

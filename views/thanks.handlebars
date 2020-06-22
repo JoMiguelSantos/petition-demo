@@ -4,4 +4,10 @@
   <p>Thank you for your signature!</p>
   <img class="user-signature" src={{signature}} alt="signature">
   <p class="signers-link">Check who else is on Team Tabs by clicking <a href="/signers">HERE</a></p>
+  <a class="update-profile-link" href="/profile/edit">Update your Profile</a>
+  <form method="delete" action="/signature">
+      <input class="clear-signature" type="button" value="Delete your signature">  
+      <input type="hidden" name="clear-signature" id="clear-signature" />
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+</form>
 </div>

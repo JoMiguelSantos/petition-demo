@@ -35,6 +35,13 @@ app.get("/", (req, res) => {
     res.render("homepage", { loggedin: !!req.session.userId });
 });
 
+function capitalize(text, separator = "-") {
+    return text
+        .split(separator)
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+}
+
 app.get("/petition", (req, res) => {
     if (req.session.userId && req.session.signatureId) {
         return res.redirect("/signers");
@@ -149,43 +156,6 @@ app.get("/profile", (req, res) => {
     res.render("profile");
 });
 
-app.get("/profile/edit", (req, res) => {
-    return Promise.all([
-        db.readUser({ id: req.session.userId }),
-        db.readProfile({ user_id: req.session.userId }),
-    ]).then((data) => {
-        console.log("profile/edit", data);
-
-        const { first, last, email } = data[0];
-        const { age, city, url } = data[1];
-        return res.render("profile_edit", {
-            first,
-            last,
-            email,
-            age,
-            city,
-            url,
-        });
-    });
-});
-
-app.post("/profile/edit", (req, res) => {
-    let { first, last, age, city, url, email, password } = req.body;
-    if (password) {
-        return hashPassword(password).then((hashedPw) => {
-            return Promise.all([
-                db.updateUser({ first, last, email, password: hashedPw }),
-                db.updateProfile({ age, city, url }),
-            ]).then(() => res.redirect("/petition"));
-        });
-    } else {
-        return Promise.all([
-            db.updateUser({ first, last, email }),
-            db.updateProfile({ age, city, url }),
-        ]).then(() => res.redirect("/petition"));
-    }
-});
-
 app.post("/profile", (req, res) => {
     let { age, city, url } = req.body;
     city = city.toLowerCase();
@@ -198,6 +168,66 @@ app.post("/profile", (req, res) => {
     }
     // check if profiles exists and update if so else create
     db.createProfile(data).then(() => res.redirect("/petition"));
+});
+
+app.get("/profile/edit", (req, res) => {
+    return Promise.all([
+        db.readUser({ id: req.session.userId }),
+        db.readProfile({ user_id: req.session.userId }),
+    ]).then((data) => {
+        const { first, last, email } = data[0].rows[0];
+        const { age, city, url } = data[1].rows[0];
+        console.log("profile/edit", first, last, email, age, city, url);
+        return res.render("profile_edit", {
+            first,
+            last,
+            email,
+            age,
+            city,
+            url,
+            helpers: { capitalize },
+        });
+    });
+});
+
+app.post("/profile/edit", (req, res) => {
+    let { first, last, age, city, url, email, password } = req.body;
+    console.log(
+        "profile/edit post",
+        first,
+        last,
+        age,
+        city,
+        url,
+        email,
+        password,
+        req.session.userId
+    );
+
+    if (password) {
+        return hashPassword(password).then((hashedPw) => {
+            return Promise.all([
+                db.updateUser({
+                    first,
+                    last,
+                    email,
+                    password: hashedPw,
+                    id: req.session.userId,
+                }),
+                db.updateProfile({
+                    user_id: req.session.userId,
+                    age,
+                    city,
+                    url,
+                }),
+            ]).then(() => res.redirect("/petition"));
+        });
+    } else {
+        return Promise.all([
+            db.updateUser({ first, last, email, id: req.session.userId }),
+            db.updateProfile({ user_id: req.session.userId, age, city, url }),
+        ]).then(() => res.redirect("/petition"));
+    }
 });
 
 app.get("/thanks", (req, res) => {
@@ -223,15 +253,7 @@ app.get("/signers", (req, res) => {
                     toLowerCase(str) {
                         return str.toLowerCase();
                     },
-                    capitalize(text, separator = "-") {
-                        return text
-                            .split(separator)
-                            .map(
-                                (word) =>
-                                    word.charAt(0).toUpperCase() + word.slice(1)
-                            )
-                            .join(" ");
-                    },
+                    capitalize,
                 },
             });
         })
@@ -249,15 +271,7 @@ app.get("/signers/:city", (req, res) => {
                     toLowerCase(str) {
                         return str.toLowerCase();
                     },
-                    capitalize(text, separator = "-") {
-                        return text
-                            .split(separator)
-                            .map(
-                                (word) =>
-                                    word.charAt(0).toUpperCase() + word.slice(1)
-                            )
-                            .join(" ");
-                    },
+                    capitalize,
                 },
             });
         })

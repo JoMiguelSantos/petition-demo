@@ -3,11 +3,11 @@
 <form class="profile_edit" action="/profile/edit" method="post">
   <div class="input-container">
       <label for="first">First Name</label>
-      <input type="text" name="first" id="first" value="{{first}}"/>
+      <input type="text" name="first" id="first" value="{{first}}" required />
   </div>
   <div class="input-container">
       <label for="last">Last Name</label>
-      <input type="text" name="last" id="last" value="{{last}}" />
+      <input type="text" name="last" id="last" value="{{last}}" required />
   </div>
   <div class="input-container">
       <label for="city">City</label>
@@ -23,7 +23,7 @@
   </div>
   <div class="input-container">
       <label for="email">Email</label>
-      <input type="email" name="email" id="email" value="{{email}}"/>
+      <input type="email" name="email" id="email" value="{{email}}" required />
   </div>
   <div class="input-container">
       <label for="password">Password</label>

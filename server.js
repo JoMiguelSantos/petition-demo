@@ -6,10 +6,13 @@ const qs = require("querystring");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const { hashPassword, comparePassword } = require("./bc");
+const helmet = require("helmet");
+const { cookieSecret } = require("./secrets.json");
 
+app.use(helmet());
 app.use(
     cookieSession({
-        secret: `tabs rule`,
+        secret: cookieSecret,
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
@@ -144,6 +147,43 @@ app.post("/signup", (req, res) => {
 
 app.get("/profile", (req, res) => {
     res.render("profile");
+});
+
+app.get("/profile/edit", (req, res) => {
+    return Promise.all([
+        db.readUser({ id: req.session.userId }),
+        db.readProfile({ user_id: req.session.userId }),
+    ]).then((data) => {
+        console.log("profile/edit", data);
+
+        const { first, last, email } = data[0];
+        const { age, city, url } = data[1];
+        return res.render("profile_edit", {
+            first,
+            last,
+            email,
+            age,
+            city,
+            url,
+        });
+    });
+});
+
+app.post("/profile/edit", (req, res) => {
+    let { first, last, age, city, url, email, password } = req.body;
+    if (password) {
+        return hashPassword(password).then((hashedPw) => {
+            return Promise.all([
+                db.updateUser({ first, last, email, password: hashedPw }),
+                db.updateProfile({ age, city, url }),
+            ]).then(() => res.redirect("/petition"));
+        });
+    } else {
+        return Promise.all([
+            db.updateUser({ first, last, email }),
+            db.updateProfile({ age, city, url }),
+        ]).then(() => res.redirect("/petition"));
+    }
 });
 
 app.post("/profile", (req, res) => {

@@ -6,6 +6,8 @@
   <li> 
     <a href="{{url}}">{{first}} {{last}}</a> 
     {{age}} 
+    {{#if city}}
     <a href="/signers/{{toLowerCase city}}">{{capitalize city}}</a>
+    {{/if}}
   </li>
 {{/signers}}

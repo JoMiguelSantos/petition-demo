@@ -32,7 +32,10 @@ app.engine("handlebars", handlebars());
 app.set("view engine", "handlebars");
 
 app.get("/", (req, res) => {
-    res.render("homepage", { loggedin: !!req.session.userId });
+    res.render("homepage", {
+        loggedin: !!req.session.userId,
+        signature: !!req.session.signatureId,
+    });
 });
 
 function capitalize(text, separator = "-") {
@@ -177,7 +180,6 @@ app.get("/profile/edit", (req, res) => {
     ]).then((data) => {
         const { first, last, email } = data[0].rows[0];
         const { age, city, url } = data[1].rows[0];
-        console.log("profile/edit", first, last, email, age, city, url);
         return res.render("profile_edit", {
             first,
             last,
@@ -192,17 +194,6 @@ app.get("/profile/edit", (req, res) => {
 
 app.post("/profile/edit", (req, res) => {
     let { first, last, age, city, url, email, password } = req.body;
-    console.log(
-        "profile/edit post",
-        first,
-        last,
-        age,
-        city,
-        url,
-        email,
-        password,
-        req.session.userId
-    );
 
     if (password) {
         return hashPassword(password).then((hashedPw) => {
@@ -241,6 +232,13 @@ app.get("/thanks", (req, res) => {
             })
             .catch((err) => console.log(err));
     }
+});
+
+app.post("/signature", (req, res) => {
+    db.deleteSignature({ user_id: req.session.userId }).then(() => {
+        req.session.signatureId = null;
+        return res.redirect("/petition");
+    });
 });
 
 app.get("/signers", (req, res) => {

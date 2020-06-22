@@ -24,11 +24,10 @@ canvas.addEventListener(
     false
 );
 
-canvas.addEventListener(
+document.addEventListener(
     "mouseup",
     function () {
         const dataUrl = canvas.toDataURL();
-        // hiddenInput.innerHTML = dataUrl;
         hiddenInput.value = dataUrl;
         drawing = false;
     },

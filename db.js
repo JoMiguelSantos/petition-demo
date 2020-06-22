@@ -27,7 +27,9 @@ exports.readAllSignatures = ({ user_id, city }) => {
 };
 
 exports.readSignature = ({ id, user_id }) => {
-    const query = `SELECT * FROM signatures WHERE ${id || user_id} = $1;`;
+    const query = `SELECT * FROM signatures WHERE ${
+        id ? "id" : "user_id"
+    } = $1;`;
     return db.query(query, [id || user_id]);
 };
 
@@ -52,22 +54,25 @@ exports.deleteSignature = ({ user_id }) => {
 };
 
 exports.createUser = ({ first, last, email, password }) => {
-    const query = `INSERT INTO users ("first", "last", email, password) VALUES ($1, $2, $3, $4) RETURNING *;`;
+    const query = `INSERT INTO users ("first", "last", email, password) 
+                   VALUES ($1, $2, $3, $4) RETURNING *;`;
     return db.query(query, [first, last, email, password]);
 };
 
-exports.readUser = ({ email }) => {
-    const query = `SELECT * FROM users WHERE email = $1`;
-    return db.query(query, [email]);
+exports.readUser = ({ email, id }) => {
+    const query = `SELECT * FROM users WHERE ${id ? "id" : "email"} = $1;`;
+    return db.query(query, [email || id]);
 };
 
-exports.updateUser = (user) => {
-    let promises = [];
-    for (let key in user) {
-        const query = `UPDATE users SET ${key} = $1 WHERE id = $2`;
-        promises.push(db.query(query, [user[key], user.id]));
-    }
-    return Promise.all(promises);
+exports.updateUser = ({ first, last, email, password, id }) => {
+    const query = `INSERT INTO users (first, last, email, password, id) 
+                       VALUES ($1, $2, $3, $4, $5)
+                       ON CONFLICT (id)
+                       DO UPDATE SET first = $1, 
+                                     last = $2, 
+                                     email = $3
+                                     password = $4;`;
+    return db.query(query, [first, last, email, password, id]);
 };
 
 exports.deleteUser = ({ id }) => {
@@ -85,13 +90,14 @@ exports.createProfile = ({ user_id, age, city, url }) => {
     return db.query(query, [user_id, age, city, url]);
 };
 
-exports.updateProfile = (userProfile) => {
-    let promises = [];
-    for (let key in userProfile) {
-        const query = `UPDATE user_profiles SET ${key} = $1 WHERE id = $2`;
-        promises.push(db.query(query, [userProfile[key], userProfile.id]));
-    }
-    return Promise.all(promises);
+exports.updateProfile = ({ user_id, age, city, url }) => {
+    const query = `INSERT INTO user_profiles (age, city, url, user_id) 
+                       VALUES ($1, $2, $3, $4)
+                       ON CONFLICT (user_id)
+                       DO UPDATE SET age = $1, 
+                                     city = $2, 
+                                     url = $3;`;
+    return db.query(query, [age, city, url, user_id]);
 };
 
 exports.deleteProfile = ({ id }) => {

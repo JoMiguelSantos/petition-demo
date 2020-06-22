@@ -7,12 +7,12 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const { hashPassword, comparePassword } = require("./bc");
 const helmet = require("helmet");
-const { cookieSecret } = require("./secrets.json");
 
 app.use(helmet());
 app.use(
     cookieSession({
-        secret: cookieSecret,
+        secret:
+            process.env.cookieSecret || require("./secrets.json").cookieSecret,
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
@@ -278,4 +278,4 @@ app.get("/signers/:city", (req, res) => {
         .catch(() => res.sendStatus(500));
 });
 
-app.listen(8080, () => console.log("listening"));
+app.listen(process.env.PORT || 8080, () => console.log("listening"));

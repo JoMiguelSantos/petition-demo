@@ -5,7 +5,7 @@ const qs = require("querystring");
 router.get("/", (req, res) => {
     if (req.session.userId && req.session.signatureId) {
         return res.redirect("/signers");
-    } else if (req.session.userId) {
+    } else {
         db.readSignature({ user_id: req.session.userId })
             .then((data) => {
                 if (data.rows.length === 1) {
@@ -37,8 +37,6 @@ router.get("/", (req, res) => {
                 }
             })
             .catch(() => res.sendStatus(500));
-    } else {
-        return res.redirect("/signup");
     }
 });
 

@@ -91,7 +91,7 @@ exports.readProfile = ({ user_id }) => {
 
 exports.createProfile = ({ user_id, age, city, url }) => {
     const query = `INSERT INTO user_profiles (user_id, age, city, url) VALUES ($1, $2, $3, $4) RETURNING *;`;
-    return db.query(query, [user_id, age, city, url]);
+    return db.query(query, [user_id, age || null, city || "", url || ""]);
 };
 
 exports.updateProfile = ({ user_id, age, city, url }) => {
@@ -101,7 +101,7 @@ exports.updateProfile = ({ user_id, age, city, url }) => {
                        DO UPDATE SET age = $1, 
                                      city = $2, 
                                      url = $3;`;
-    return db.query(query, [age, city, url, user_id]);
+    return db.query(query, [age || null, city || "", url || "", user_id]);
 };
 
 exports.deleteProfile = ({ id }) => {

@@ -22,16 +22,18 @@ db.readSignature.mockResolvedValue({
     ],
 });
 
-test("deletes signature", () => {
-    const session = { userId: 1, signatureId: 2 };
-    cookieSession.mockSessionOnce(session);
-    return supertest(app)
-        .post("/signature")
-        .expect(302)
-        .then((res) => {
-            expect(res.headers.location).toContain("/petition");
-            expect(session.signatureId).toBe(null);
-        });
+describe("/signature route", () => {
+    test("deletes signature", () => {
+        const session = { userId: 1, signatureId: 2 };
+        cookieSession.mockSessionOnce(session);
+        return supertest(app)
+            .post("/signature")
+            .expect(302)
+            .then((res) => {
+                expect(res.headers.location).toContain("/petition");
+                expect(session.signatureId).toBe(null);
+            });
+    });
 });
 
 describe("/ homepage route", () => {

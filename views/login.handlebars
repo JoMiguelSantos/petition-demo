@@ -4,16 +4,16 @@
     ALL programming languages!
 </h3>
 <p class="error">{{err}}</p>
-<form action="/login" method="post">
+<form action="/auth/login" method="post">
   <div class="input-container">
       <label for="email">Email</label>
       <input type="email" name="email" id="email" />
   </div>
   <div class="input-container">
       <label for="password">Password</label>
-      <input type="password" name="password" id="password" />
+      <input type="password" name="password" id="password" required/>
   </div>
   <input type="submit" class="submit" value="LOG IN" />
   <input type="hidden" name="_csrf" value="{{csrfToken}}">
 </form>
-<p class="signup-link">If you're not already a part of this campaign, please <a href="/signup">sign up</a></p>
+<p class="signup-link">If you're not already a part of this campaign, please <a href="/auth/signup">sign up</a></p>

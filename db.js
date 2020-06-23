@@ -42,16 +42,6 @@ exports.createSignature = ({ user_id, signature }) => {
     return db.query(query, [user_id, signature]);
 };
 
-exports.updateSignature = (obj) => {
-    let promises = [];
-    for (let key in obj) {
-        const query = `UPDATE signatures SET ${key} = $1 WHERE id = $2;`;
-        promises.push(db.query(query, [obj[key], obj.id]));
-    }
-
-    return Promise.all(promises);
-};
-
 exports.deleteSignature = ({ user_id }) => {
     const query = `DELETE FROM signatures WHERE user_id = $1;`;
     return db.query(query, [user_id]);

@@ -12,6 +12,11 @@ body {
     }
 }
 
+.login-text,
+.signup-text {
+    line-height: 2rem;
+}
+
 .homepage-icon {
     position: fixed;
     top: 0;

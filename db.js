@@ -98,3 +98,9 @@ exports.deleteProfile = ({ id }) => {
     const query = `DELETE FROM user_profiles WHERE id = $1`;
     return db.query(query, [id]);
 };
+
+exports.deleteAll = () => {
+    return db.query(`DELETE FROM user_profiles;
+              DELETE FROM signatures;
+              DELETE FROM users;`);
+};

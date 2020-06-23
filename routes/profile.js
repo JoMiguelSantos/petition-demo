@@ -12,14 +12,12 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-    console.log(req.body);
-
     let { age, city, url } = req.body;
-    console.log(!(age || city || url));
 
     if (!(age || city || url)) {
         return res.redirect("/petition");
     }
+
     city = city.toLowerCase();
     const user_id = req.session.userId;
     let data;
@@ -36,10 +34,8 @@ router.post("/", (req, res) => {
             req.session.profileId = data.rows[0].id;
             res.redirect("/petition");
         })
-        .catch((err) => {
-            console.log(err);
-
-            res.sendStatus(500);
+        .catch(() => {
+            return res.sendStatus(500);
         });
 });
 

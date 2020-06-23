@@ -2,9 +2,15 @@ const express = require("express");
 const handlebars = require("express-handlebars");
 const db = require("./db");
 const app = express();
+
+exports.app = app;
+
+// middlewares
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const helmet = require("helmet");
+
+// routers
 const petitionRouter = require("./routes/petition");
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
@@ -97,4 +103,6 @@ app.post("/signature", (req, res) => {
         .catch(() => res.sendStatus(500));
 });
 
-app.listen(process.env.PORT || 8080, () => console.log("listening"));
+if (require.main == module) {
+    app.listen(process.env.PORT || 8080, () => console.log("listening"));
+}

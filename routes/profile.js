@@ -29,8 +29,6 @@ router.post("/", (req, res) => {
     return db
         .createProfile(data)
         .then((data) => {
-            console.log("profile db data", data);
-
             req.session.profileId = data.rows[0].id;
             res.redirect("/petition");
         })

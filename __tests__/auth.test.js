@@ -5,11 +5,11 @@ const db = require("../db");
 
 describe("auth route", () => {
     beforeAll(() => {
-        return db.deleteAll().then(() => console.log("DB reset"));
+        return db.deleteTestUser().then(() => console.log("test user deleted"));
     });
 
     afterAll(() => {
-        return db.deleteAll().then(() => console.log("DB reset"));
+        return db.deleteTestUser().then(() => console.log("test user deleted"));
     });
 
     it("is able to render the signup page", () => {
@@ -29,7 +29,7 @@ describe("auth route", () => {
         cookieSession.mockSessionOnce(session);
         return supertest(app)
             .post("/auth/signup")
-            .send("first=Test&last=Test&email=test@email.com&password=test1234")
+            .send("first=test&last=test&email=test@email.com&password=test1234")
             .expect(302)
             .then((res) => {
                 expect(res.headers.location).toContain("/profile");

@@ -5,11 +5,17 @@ const { hashPassword } = require("../bc");
 
 router.get("/", (req, res) => {
     if (req.session.profileId) {
-        res.redirect("/profile/edit");
+        return res.redirect("/profile/edit");
     } else {
-        res.render("profile", {
-            loggedin: !!req.session.userId,
-            signed: !!req.session.signatureId,
+        return db.readProfile({ user_id: req.session.userId }).then((data) => {
+            if (!!data.rowCount) {
+                return res.redirect("/profile/edit");
+            } else {
+                return res.render("profile", {
+                    loggedin: !!req.session.userId,
+                    signed: !!req.session.signatureId,
+                });
+            }
         });
     }
 });

@@ -17,10 +17,25 @@ body {
     line-height: 2rem;
 }
 
-.homepage-icon {
+nav {
+    display: flex;
+    flex-direction: column;
     position: fixed;
     top: 0;
     left: 0;
+}
+
+nav > a:not(:first-child) {
+    border-radius: 2px;
+    color: black;
+    background-color: white;
+    cursor: pointer;
+    margin: 0.2rem 0;
+    padding: 0.2rem 0.1rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.homepage-icon {
     padding: 5px;
 }
 
@@ -155,57 +170,13 @@ li {
     }
 }
 
-.homepage-header {
-    margin: 2rem;
-}
-@media only screen and (max-width: 600px) {
-    .homepage-header {
-        font-size: 1.5rem;
-        margin-left: 1.5rem;
-    }
-}
-
-.login-header {
+.header {
     text-align: center;
-    margin: 2rem;
+    margin: 2rem 5rem;
 }
 @media only screen and (max-width: 600px) {
-    .login-header {
+    .header {
         font-size: 1.5rem;
-        margin-left: 1.5rem;
-    }
-}
-
-.petition-header {
-    text-align: center;
-    margin: 2rem;
-}
-@media only screen and (max-width: 600px) {
-    .petition-header {
-        font-size: 1.5rem;
-        margin-top: 6rem;
-    }
-}
-
-.signers-header {
-    text-align: center;
-    margin: 2rem;
-}
-@media only screen and (max-width: 600px) {
-    .signers-header {
-        font-size: 1.5rem;
-        margin-left: 3rem;
-    }
-}
-
-.thanks-header {
-    text-align: center;
-    margin: 2rem;
-}
-@media only screen and (max-width: 600px) {
-    .thanks-header {
-        font-size: 1.5rem;
-        margin-left: 1.5rem;
     }
 }
 

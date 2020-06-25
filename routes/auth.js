@@ -7,9 +7,17 @@ router.get("/login", (req, res) => {
     const err = qs.parse(req.url.split("?")[1])["err"];
 
     if (err === "true") {
-        res.render("login", { err: "Your email or password is not correct" });
+        res.render("login", {
+            err: "Your email or password is not correct",
+            loggedin: !!req.session.userId,
+            signed: !!req.session.signatureId,
+        });
     } else {
-        res.render("login", { err: "" });
+        res.render("login", {
+            err: "",
+            loggedin: !!req.session.userId,
+            signed: !!req.session.signatureId,
+        });
     }
 });
 
@@ -46,9 +54,15 @@ router.get("/signup", (req, res) => {
         return res.render("signup", {
             err:
                 "One of your fields were not correctly field in, please check them and resubmit.",
+            loggedin: !!req.session.userId,
+            signed: !!req.session.signatureId,
         });
     } else {
-        return res.render("signup", { err: "" });
+        return res.render("signup", {
+            err: "",
+            loggedin: !!req.session.userId,
+            signed: !!req.session.signatureId,
+        });
     }
 });
 

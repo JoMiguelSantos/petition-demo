@@ -66,8 +66,9 @@ app.set("view engine", "handlebars");
 
 app.get("/", (req, res) => {
     res.render("homepage", {
+        home: true,
         loggedin: !!req.session.userId,
-        signature: !!req.session.signatureId,
+        signed: !!req.session.signatureId,
     });
 });
 
@@ -86,6 +87,8 @@ app.get("/thanks", (req, res) => {
             .then((data) => {
                 return res.render("thanks", {
                     signature: data.rows[0].signature,
+                    loggedin: !!req.session.userId,
+                    signed: !!req.session.signatureId,
                 });
             })
             .catch(() => res.sendStatus(500));

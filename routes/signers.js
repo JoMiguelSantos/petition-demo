@@ -16,6 +16,8 @@ router.get("/", (req, res) => {
             });
             return res.render("signers", {
                 signers,
+                loggedin: !!req.session.userId,
+                signed: !!req.session.signatureId,
                 helpers: {
                     toLowerCase(str) {
                         return str.toLowerCase();
@@ -43,6 +45,8 @@ router.get("/:city", (req, res) => {
             return res.render("signers", {
                 signers,
                 city: true,
+                loggedin: !!req.session.userId,
+                signed: !!req.session.signatureId,
                 helpers: {
                     toLowerCase(str) {
                         return str.toLowerCase();

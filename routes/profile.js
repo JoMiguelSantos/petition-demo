@@ -7,7 +7,10 @@ router.get("/", (req, res) => {
     if (req.session.profileId) {
         res.redirect("/profile/edit");
     } else {
-        res.render("profile");
+        res.render("profile", {
+            loggedin: !!req.session.userId,
+            signed: !!req.session.signatureId,
+        });
     }
 });
 
@@ -53,6 +56,8 @@ router.get("/edit", (req, res) => {
                     age,
                     city,
                     url,
+                    loggedin: !!req.session.userId,
+                    signed: !!req.session.signatureId,
                     helpers: { capitalize },
                 });
             } else {

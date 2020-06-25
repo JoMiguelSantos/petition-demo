@@ -12,7 +12,23 @@
         ></link>
     </head>
     <body>
-      <a href="/"><img class="homepage-icon" src="/advocacy.png" alt="home page icon" width="40px"></a>
+      <nav>
+        <a href="/"><img class="homepage-icon" src="/advocacy.png" alt="home page icon" width="40px"></a>
+        {{#if home}}
+        {{else}}
+          {{#if loggedin}}
+            <a href="/auth/logout">Log Out</a>
+            <a href="/profile">Profile</a>
+            <a href="/signers">Petition</a>
+            {{#if signed}}
+              <a href="/thanks">Signature</a>
+            {{/if}}
+          {{else}}
+              <a href="/auth/login">Login</a>
+              <a href="/auth/signup">Sign Up</a>
+          {{/if}}
+        {{/if}}
+      </nav>
       {{{ body }}}
     </body>
 </html>

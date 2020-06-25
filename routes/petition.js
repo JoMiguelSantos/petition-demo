@@ -18,20 +18,22 @@ router.get("/", (req, res) => {
                         return res.render("petition", {
                             err:
                                 "Oh nooo, something went wrong, please resubmitted your signature :(",
-                            layout: "signature",
                             user: {
                                 first: req.session.first,
                                 last: req.session.last,
                             },
+                            loggedin: !!req.session.userId,
+                            signed: !!req.session.signatureId,
                         });
                     } else {
                         return res.render("petition", {
                             err: "",
-                            layout: "signature",
                             user: {
                                 first: req.session.first,
                                 last: req.session.last,
                             },
+                            loggedin: !!req.session.userId,
+                            signed: !!req.session.signatureId,
                         });
                     }
                 }

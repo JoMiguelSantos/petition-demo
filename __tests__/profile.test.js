@@ -24,6 +24,10 @@ db.readUser.mockResolvedValue({
     ],
 });
 
+db.readProfile.mockResolvedValue({
+    rows: [],
+});
+
 db.updateProfile.mockResolvedValue({
     rows: [
         {

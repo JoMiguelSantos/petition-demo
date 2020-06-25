@@ -17,6 +17,10 @@ body {
     line-height: 2rem;
 }
 
+.name {
+    display: inline;
+}
+
 nav {
     display: flex;
     flex-direction: column;

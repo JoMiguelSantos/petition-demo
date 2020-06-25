@@ -4,7 +4,11 @@
 <h3>Subscribers:</h3>
 {{#signers}}
   <li> 
-    <a href="{{url}}">{{first}} {{last}}</a> 
+    {{#if url}}
+      <a href="{{url}}">{{first}} {{last}}</a> 
+    {{else}}
+      <p class="name">{{first}} {{last}}</p> 
+    {{/if}}
     {{age}} 
     <a href="/signers/{{toLowerCase city}}">{{capitalize city}}</a>
   </li>

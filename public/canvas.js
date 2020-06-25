@@ -20,16 +20,15 @@ canvas.addEventListener(
     function (e) {
         drawing = true;
         lastPos = getMousePos(this, e);
-    },
-    false
-);
-
-document.addEventListener(
-    "mouseup",
-    function () {
-        const dataUrl = canvas.toDataURL();
-        hiddenInput.value = dataUrl;
-        drawing = false;
+        document.addEventListener(
+            "mouseup",
+            function () {
+                const dataUrl = canvas.toDataURL();
+                hiddenInput.value = dataUrl;
+                drawing = false;
+            },
+            false
+        );
     },
     false
 );

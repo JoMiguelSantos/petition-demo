@@ -41,15 +41,19 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-    return db
-        .createSignature({ ...req.body, user_id: req.session.userId })
-        .then((data) => {
-            req.session.signatureId = data.rows[0].id;
-            return res.redirect("/thanks");
-        })
-        .catch(() => {
-            return res.redirect("/petition?err=true");
-        });
+    if (req.body.signature === "") {
+        res.redirect("/petition?err=true");
+    } else {
+        return db
+            .createSignature({ ...req.body, user_id: req.session.userId })
+            .then((data) => {
+                req.session.signatureId = data.rows[0].id;
+                return res.redirect("/thanks");
+            })
+            .catch(() => {
+                return res.redirect("/petition?err=true");
+            });
+    }
 });
 
 module.exports = router;

@@ -99,8 +99,14 @@ exports.deleteProfile = ({ id }) => {
     return db.query(query, [id]);
 };
 
-exports.deleteAll = () => {
-    return db.query(`DELETE FROM user_profiles;
-              DELETE FROM signatures;
-              DELETE FROM users;`);
+exports.deleteTestUser = () => {
+    return db
+        .query(`SELECT id FROM users WHERE email = 'test@email.com';`)
+        .then((data) => {
+            const id = data.rows[0].id;
+            return db.query(`DELETE FROM user_profiles WHERE user_id = ${id};
+                  DELETE FROM signatures WHERE user_id = ${id};
+                  DELETE FROM users WHERE id = ${id};`);
+        })
+        .catch(() => console.log("all good test user didn't exist"));
 };
